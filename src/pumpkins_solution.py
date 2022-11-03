@@ -13,19 +13,19 @@ def get_lines():
 def main():
     word = "PUMPKIN"
     first_syllable_len = 4
-    pumpkins = 0
-    prev_line = ""
     
     word_reversed = word[::-1]
     word_split = ".*?".join(word)
-    
     regexp = fr"[^{word}]({word}|{word_reversed})[^{word}]|{word_split}"
+    
+    pumpkins = 0
+    prev_line = ""
     
     for line in get_lines():
         line_pumpkins = len(re.findall(regexp, line))
         
         line_part = prev_line.strip()[-first_syllable_len:] + line[:len(word) - first_syllable_len]
-        interline_pumpkins = int(line_part in (word, word_reversed))
+        interline_pumpkins = int(line_part == word or line_part == word_reversed)
         
         pumpkins += line_pumpkins + interline_pumpkins
         prev_line = line
